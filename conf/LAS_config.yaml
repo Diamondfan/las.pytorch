@@ -1,0 +1,54 @@
+data:
+  exp: 'first_try'
+  checkpoints: './checkpoint'
+  batch_size: 10
+  data_dir: '/search/speech/fanruchao/speech_100h_data'
+  log: './log'
+  max_lab_len: 40
+  num_workers: 4
+  vocab_file: '/search/speech/fanruchao/speech_100h_data/train.text'
+model:
+  decoder_param:
+    attention_mode: dot
+    drop_out: 0
+    embed_dim: 512
+    rnn_layers: 1
+    teach_rate: 1
+  encoder_param:
+    cnn:
+      activate_function: relu
+      batch_norm: true
+      layers:
+      - - (1, 16)
+        - (5, 5)
+        - (1, 2)
+        - (0, 0)
+        - None
+      - - (16, 16)
+        - (5, 5)
+        - (2, 2)
+        - (0, 0)
+        - None
+    drop_out: 0
+    rnn:
+      batch_norm: true
+      bidirectional: true
+      hidden_size: 256
+      layers: 4
+      rnn_input_size: 40
+      rnn_type: lstm
+test:
+  beam_width: 3
+  decode_type: beam
+  result_file: ./log/decode_result_beam
+train:
+  decay_epoch: 
+  - 15
+  - 20
+  - 25
+  epoch: 30
+  init_lr: 0.0002
+  lr_decay: 0.5
+  seed: 1234
+  use_cuda: true
+  weight_decay: 0
